@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.SettingsController">
+    <ChoiceBox fx:id="choiceBox" layoutX="270.0" layoutY="126.0" prefWidth="150.0">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="ComicSans" />
+                <String fx:value="MISHA SHRIFTT" />
+                <String fx:value="Option 3" />
+            </FXCollections>
+        </items>
+    </ChoiceBox>
+   <Label layoutX="181.0" layoutY="125.0" text="Шрифты:">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Label layoutX="207.0" layoutY="162.0" text="Темы:">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <ChoiceBox layoutX="270.0" layoutY="163.0" prefWidth="150.0" />
+   <Label layoutX="231.0" layoutY="42.0" text="Настройки">
+      <font>
+         <Font size="28.0" />
+      </font>
+   </Label>
+   <Button layoutX="239.0" layoutY="284.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="123.0" text="ОК">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Button>
+</AnchorPane>

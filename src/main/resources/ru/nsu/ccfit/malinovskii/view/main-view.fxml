@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.MainScreenController">
+  <children>
+    <Button fx:id="settingsButton" layoutX="25.0" layoutY="14.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" text="Настройки" />
+    <Button fx:id="motivationButton" layoutX="83.0" layoutY="14.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="194.0" text="Получить мотивацию" />
+    <TableView fx:id="workspacesTable" layoutX="25.0" layoutY="67.0" prefHeight="469.0" prefWidth="250.0">
+      <columns>
+        <TableColumn fx:id="workspaces" prefWidth="250.0" text="Рабочие области" />
+      </columns>
+    </TableView>
+    <!-- Кнопка для добавления новых рабочих областей -->
+    <Button fx:id="addWorkspaceButton" layoutX="25.0" layoutY="542.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="250.0" text="Добавить рабочую область" />
+    <AnchorPane fx:id="workspacePane" layoutX="294.0" layoutY="15.0" prefHeight="570.0" prefWidth="747.0" />
+  </children>
+</AnchorPane>
