@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Status;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Subject;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Task;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Workspace;
@@ -107,23 +108,20 @@ public class WorkspaceController {
 
     // Обновление цвета кнопки в зависимости от статуса
     private void updateButtonColor(Button button, Task task) {
-        int status = task.getStatus();
-        if (status == 0) {
-            button.setStyle("-fx-base: white;");
-        } else if (status == 1) {
-            button.setStyle("-fx-base: yellow;");
-        } else if (status == 2) {
-            button.setStyle("-fx-base: green;");
+        switch (task.getStatus()) {
+            case NOT_DONE -> button.setStyle("-fx-base: white;");
+            case IN_WORK -> button.setStyle("-fx-base: yellow;");
+            case PASS -> button.setStyle("-fx-base: green;");
         }
     }
 
     // Обновление статуса задания
     private void updateTaskStatus(Task task, int taskNumber) {
-        int currentStatus = task.getStatus();
+        int currentStatus = task.getStatus().getValue();
         if (currentStatus < taskNumber) {
-            task.changeStatus(taskNumber);  // Меняем статус на 1, 2 или 3 в зависимости от клика
+            task.setStatus(taskNumber);  // Меняем статус на 1, 2 или 3 в зависимости от клика
         } else if (currentStatus == taskNumber) {
-            task.changeStatus(0);  // Если нажать на ту же кнопку, сбрасываем статус
+            task.setStatus(0);  // Если нажать на ту же кнопку, сбрасываем статус
         }
     }
 

@@ -25,8 +25,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-  mainModule = 'ru.nsu.ccfit.malinovskii'
-  mainClass = 'ru.nsu.ccfit.malinovskii.HelloApplication'
+  mainModule = 'org.example.cucubushca'
+  mainClass = 'ru.nsu.ccfit.malinovskii.Main'
 }
 
 javafx {
@@ -47,6 +47,11 @@ dependencies {
   implementation('eu.hansolo:tilesfx:11.48') {
     exclude(group: 'org.openjfx')
   }
+
+  // https://mvnrepository.com/artifact/org.projectlombok/lombok
+  compileOnly('org.projectlombok:lombok:1.18.36')
+  annotationProcessor('org.projectlombok:lombok:1.18.36')
+
   //implementation('com.github.almasb:fxgl:17.3') {
   //  exclude(group: 'org.openjfx')
   //  exclude(group: 'org.jetbrains.kotlin')

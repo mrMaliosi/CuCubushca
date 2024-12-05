@@ -1,5 +1,8 @@
 package ru.nsu.ccfit.malinovskii.Model.Objects;
 
+import lombok.Getter;
+
+@Getter
 public enum Status {
     NOT_DONE(0),
     IN_WORK(1),
@@ -9,10 +12,6 @@ public enum Status {
 
     Status(int value) {
         this.value = value;
-    }
-
-    public int getValue() {
-        return value;
     }
 
     public static Status fromValue(int value) {

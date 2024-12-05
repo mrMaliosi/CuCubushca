@@ -1,20 +1,22 @@
 package ru.nsu.ccfit.malinovskii.Model.Objects;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class Context {
-    private List<Workspace> workspaces;
+
+    private final List<Workspace> workspaces;
+
     private Workspace currentWorkspace;
 
-    public Context() {
+    public Context(FileManager fm) {
         workspaces = new ArrayList<>();
         currentWorkspace = null;
-    }
-
-    public void loadWorkspaces(FileManager fm) {
-        fm.loadWorkspaces(workspaces);
+        fm.loadWorkDir(workspaces);
     }
 
     public boolean addWorkspace(String name) {
@@ -38,26 +40,14 @@ public class Context {
         return false;
     }
 
-    public Workspace getCurrentWorkspace() {
-        return currentWorkspace;
-    }
-
-    public List<Workspace> getWorkspaces() {
-        return workspaces;
-    }
-
     public List<String> getWorkspacesNames() {
         return workspaces.stream().map(Workspace::getName).collect(Collectors.toList());
     }
 
-    public Workspace deleteCurrentWorkspace() {
+    public boolean deleteCurrentWorkspace() {
         if (currentWorkspace == null) {
-            return null;
+            return false;
         }
-        boolean ok = workspaces.remove(currentWorkspace);
-        if (!ok) {
-            return null;
-        }
-        return currentWorkspace;
+        return workspaces.remove(currentWorkspace);
     }
 }
