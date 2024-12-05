@@ -1,11 +1,18 @@
 package ru.nsu.ccfit.malinovskii.Model.Objects;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import  java.util.ArrayList;
 import java.util.stream.Collectors;
 
+@Getter
 public class Workspace {
+
+    @Setter
     private String name;
+
     private List<Subject> subjects;
 
     public Workspace(String name) {
@@ -31,14 +38,6 @@ public class Workspace {
             }
         }
         subjects.add(subject);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public List<String> getSubjectNames() {
@@ -107,5 +106,21 @@ public class Workspace {
         }
 
         return subject.deleteTask(taskName);
+    }
+
+    public boolean changeSubjectTaskStatus(String subjectName, String taskName, Status status) {
+        Subject subject = null;
+        for (Subject s : subjects) {
+            if (s.getName().equals(subjectName)) {
+                subject = s;
+                break;
+            }
+        }
+
+        if (subject == null) {
+            return false;
+        }
+
+        return subject.changeTaskStatus(taskName, status);
     }
 }

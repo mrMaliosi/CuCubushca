@@ -12,6 +12,7 @@ module org.example.cucubushca {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires static lombok;
     //requires com.almasb.fxgl.all;
 
     opens ru.nsu.ccfit.malinovskii.Model to javafx.base;
