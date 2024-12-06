@@ -13,16 +13,19 @@ import ru.nsu.ccfit.malinovskii.Model.Objects.FileManagerSys;
 import java.io.*;
 import java.net.URL;
 
+import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
+
 public class CuCubushca extends Application {
     public static Stage stage;
     public static FXMLLoader loader = new FXMLLoader();
     public static FileManager fm = new FileManagerSys();
-    public static Context context = new Context(fm);
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         URL xmlUrl = getClass().getResource("/ru/nsu/ccfit/malinovskii/view/main-view.fxml");
         loader.setLocation(xmlUrl);
+        Context context = getContext();
+        context.initializeWorkspaces(fm);
         try {
             Parent root = loader.load();
             stage.setScene(new Scene(root));

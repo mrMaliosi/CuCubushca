@@ -3,6 +3,7 @@ package ru.nsu.ccfit.malinovskii.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 
+//Not In MVP
 public class SettingsController {
     @FXML
     private ChoiceBox choiceBox;

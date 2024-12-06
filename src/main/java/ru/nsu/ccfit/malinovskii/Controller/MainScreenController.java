@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.*;
@@ -21,7 +22,9 @@ import ru.nsu.ccfit.malinovskii.Model.Objects.Workspace;
 import java.io.IOException;
 import java.net.URL;
 
-import static ru.nsu.ccfit.malinovskii.Model.CuCubushca.context;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Context;
+import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
+
 
 public class MainScreenController {
     @FXML
@@ -36,6 +39,8 @@ public class MainScreenController {
     private TableColumn<Workspace, String> workspaces;
     @FXML
     private AnchorPane workspacePane;
+
+    Context context = getContext();
 
     @FXML
     public void initialize() {
@@ -78,11 +83,38 @@ public class MainScreenController {
         });
 
         addWorkspaceButton.setOnAction(e -> {
-            String newName = "Новая рабочая область " + (context.getWorkspacesNames().size() + 1);
-            boolean added = context.addWorkspace(newName);
-            if (added) {
-                // Обновляем список рабочих областей в таблице
-                workspacesTable.setItems(FXCollections.observableArrayList(context.getWorkspaces()));
+            try {
+                URL motivationXmlUrl = getClass().getResource("/ru/nsu/ccfit/malinovskii/view/workspace-creation-view.fxml");
+                FXMLLoader loader = new FXMLLoader(motivationXmlUrl);
+                Parent root = loader.load();
+
+                // Получаем контроллер из FXML
+                WorkspaceCreationController controller = loader.getController();
+
+                // Создаём новое окно (Stage)
+                Stage stage = new Stage();
+                stage.setTitle("Создание рабочей области");
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL); // Модальное окно, блокирует остальные окна до закрытия
+                stage.showAndWait(); // Ждём закрытия окна
+
+                // Получаем имя рабочей области, которое было введено в окне
+                String newName = controller.getWorkspaceName();
+
+                // Если имя было введено, добавляем рабочую область в контекст
+                if (newName != null && !newName.isEmpty()) {
+                    boolean added = context.addWorkspace(newName);
+                    if (added) {
+                        // Обновляем список рабочих областей в таблице
+                        workspacesTable.setItems(FXCollections.observableArrayList(context.getWorkspaces()));
+                    }
+                } else {
+                    // Можно вывести сообщение о том, что имя не было введено, или обработать ошибку
+                    System.out.println("Имя рабочей области не может быть пустым!");
+                }
+            } catch (IOException ex) {
+                // Обработка ошибок при загрузке FXML
+                ex.printStackTrace();
             }
         });
 

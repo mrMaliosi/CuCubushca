@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="570.0" prefWidth="747.0" xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/17.0.2-ea"
-            fx:controller="ru.nsu.ccfit.malinovskii.Controller.WorkspaceController">
-    <Label fx:id="workspaceNameLabel" layoutX="14.0" layoutY="14.0" text="Название рабочей области"/>
-
-    <!-- Таблица для отображения предметов и заданий -->
-    <TableView fx:id="subjectsTable" layoutX="14.0" layoutY="50.0" prefWidth="800.0" prefHeight="400.0">
-        <columns>
-            <TableColumn fx:id="subjectNameColumn" text="Предмет" prefWidth="200.0"/>
-            <TableColumn fx:id="task1Column" text="Задание 1" prefWidth="200.0"/>
-            <TableColumn fx:id="task2Column" text="Задание 2" prefWidth="200.0"/>
-            <!-- Добавьте дополнительные столбцы для других заданий -->
-        </columns>
-    </TableView>
-</AnchorPane>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ru.nsu.ccfit.malinovskii.Controller.WorkspaceController">
+    <VBox fx:id="workspaceContainer" />
+</VBox>

@@ -12,7 +12,6 @@ public class Workspace {
 
     @Setter
     private String name;
-
     private List<Subject> subjects;
 
     public Workspace(String name) {
