@@ -15,6 +15,7 @@ repositories {
 
 ext {
   junitVersion = '5.10.0'
+  lombokVersion = '1.18.36'
 }
 
 sourceCompatibility = '21'
@@ -49,8 +50,12 @@ dependencies {
   }
 
   // https://mvnrepository.com/artifact/org.projectlombok/lombok
-  compileOnly('org.projectlombok:lombok:1.18.36')
-  annotationProcessor('org.projectlombok:lombok:1.18.36')
+  compileOnly("org.projectlombok:lombok:${lombokVersion}")
+  annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+  // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+
 
   //implementation('com.github.almasb:fxgl:17.3') {
   //  exclude(group: 'org.openjfx')
@@ -59,6 +64,9 @@ dependencies {
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+  testImplementation("org.projectlombok:lombok:${lombokVersion}")
+  testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
 test {

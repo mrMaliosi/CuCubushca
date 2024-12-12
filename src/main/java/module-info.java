@@ -13,14 +13,16 @@ module org.example.cucubushca {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires static lombok;
+    requires com.fasterxml.jackson.databind;
     //requires com.almasb.fxgl.all;
 
     opens ru.nsu.ccfit.malinovskii.Model to javafx.base;
     opens ru.nsu.ccfit.malinovskii to javafx.fxml;
     opens ru.nsu.ccfit.malinovskii.Model.Objects to javafx.base;  // Открытие пакета для javafx.base
+    opens ru.nsu.ccfit.malinovskii.Controller to javafx.fxml;
 
     exports ru.nsu.ccfit.malinovskii.Model.Objects;
     exports ru.nsu.ccfit.malinovskii to javafx.graphics;
     exports ru.nsu.ccfit.malinovskii.Controller;
-    opens ru.nsu.ccfit.malinovskii.Controller to javafx.fxml;
+    exports ru.nsu.ccfit.malinovskii.Model.Objects.dto to com.fasterxml.jackson.databind;
 }
