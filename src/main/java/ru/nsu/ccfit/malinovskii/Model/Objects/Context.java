@@ -16,7 +16,7 @@ public class Context {
     public Context(FileManager fm) {
         workspaces = new ArrayList<>();
         currentWorkspace = null;
-        fm.loadWorkDir(workspaces);
+        fm.load(workspaces);
     }
 
     public boolean addWorkspace(String name) {
