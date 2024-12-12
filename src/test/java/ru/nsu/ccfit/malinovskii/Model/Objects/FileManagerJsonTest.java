@@ -45,8 +45,6 @@ public class FileManagerJsonTest {
         fileManager.load(workspaces);
 
         assertEquals(2, workspaces.size());
-        System.out.println(workspaces);
-        System.err.println(workspaces);
 
         Workspace loadedWorkspace1 = workspaces.getFirst();
         assertEquals("Workspace1", loadedWorkspace1.getName());
