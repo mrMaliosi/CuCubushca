@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Context;
 import ru.nsu.ccfit.malinovskii.Model.Objects.FileManager;
-import ru.nsu.ccfit.malinovskii.Model.Objects.FileManagerSys;
+import ru.nsu.ccfit.malinovskii.Model.Objects.FileManagerJson;
 
 import java.io.*;
 import java.net.URL;
@@ -18,7 +18,7 @@ import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
 public class CuCubushca extends Application {
     public static Stage stage;
     public static FXMLLoader loader = new FXMLLoader();
-    public static FileManager fm = new FileManagerSys();
+    public static FileManager fm = new FileManagerJson();
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;

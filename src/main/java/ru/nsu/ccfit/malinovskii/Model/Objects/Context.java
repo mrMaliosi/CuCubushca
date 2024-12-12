@@ -31,7 +31,7 @@ public class Context {
     }
 
     public void initializeWorkspaces(FileManager fm){
-        fm.loadWorkDir(workspaces);
+        fm.load(workspaces);
     }
 
     public boolean addWorkspace(String name) {
