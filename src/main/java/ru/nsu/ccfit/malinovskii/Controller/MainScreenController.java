@@ -89,17 +89,16 @@ public class MainScreenController {
                 stage.setScene(scene);
                 stage.show(); // Показываем окно
             } catch (IOException ioException) {
-                ioException.printStackTrace(); // Логируем ошибку, если не удается загрузить FXML
+                ioException.printStackTrace();
             }
         });
 
         addWorkspaceButton.setOnAction(e -> {
             try {
+                // Получаем контроллер из FXML
                 URL motivationXmlUrl = getClass().getResource("/ru/nsu/ccfit/malinovskii/view/workspace-creation-view.fxml");
                 FXMLLoader loader = new FXMLLoader(motivationXmlUrl);
                 Parent root = loader.load();
-
-                // Получаем контроллер из FXML
                 WorkspaceCreationController controller = loader.getController();
 
                 // Создаём новое окно (Stage)
@@ -117,8 +116,7 @@ public class MainScreenController {
                     boolean added = context.addWorkspace(newName);
                     if (added) {
                         fm.save(context.getWorkspaces());
-                        // Обновляем список рабочих областей в таблице
-                        workspacesTable.setItems(FXCollections.observableArrayList(context.getWorkspaces()));
+                        workspacesTable.setItems(FXCollections.observableArrayList(context.getWorkspaces())); // Обновляем список рабочих областей в таблице
                     }
                 } else {
                     System.out.println("Имя рабочей области не может быть пустым!");
@@ -165,7 +163,7 @@ public class MainScreenController {
                 workspacePane.getChildren().clear(); // Очищаем панель
                 workspacePane.getChildren().add(workspaceView); // Добавляем новую рабочую область
             } catch (IOException e) {
-                e.printStackTrace(); // Логируем ошибку, если не удается загрузить FXML
+                e.printStackTrace();
             }
         }
     }

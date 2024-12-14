@@ -3,7 +3,9 @@ package ru.nsu.ccfit.malinovskii.Model.Objects;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class Subject {
@@ -13,6 +15,24 @@ public class Subject {
     public Subject(String name) {
         this.name = name;
         tasks = new ArrayList<>();
+    }
+
+    public Map<Status, Integer> getStatistic() {
+        Map<Status, Integer> statistic = new HashMap<>();
+        int notDone = 0;
+        int inWork = 0;
+        int pass = 0;
+        for (Task task : tasks) {
+            switch (task.getStatus()) {
+                case NOT_DONE -> notDone++;
+                case IN_WORK -> inWork++;
+                case PASS -> pass++;
+            }
+        }
+        statistic.put(Status.NOT_DONE, notDone);
+        statistic.put(Status.IN_WORK, inWork);
+        statistic.put(Status.PASS, pass);
+        return statistic;
     }
 
     public boolean addTaskByName(String name) {

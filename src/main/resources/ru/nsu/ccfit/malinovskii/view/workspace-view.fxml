@@ -5,7 +5,7 @@
 
 <VBox style="-fx-background-color: white; -fx-background-radius: 15px;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.WorkspaceController">
     <!-- Кнопка для создания нового Subject -->
-    <Button fx:id="createSubjectButton" onAction="#handleCreateSubject" text="Создать новый предмет" />
+    <Button fx:id="createSubjectButton" text="Создать новый предмет" />
 
     <ScrollPane prefHeight="550.0" prefWidth="750.0">
         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="550" prefWidth="750" style="-fx-background-color: white;">
