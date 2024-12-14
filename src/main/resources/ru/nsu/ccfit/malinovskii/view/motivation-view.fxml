@@ -4,9 +4,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.MotivationController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="ru.nsu.ccfit.malinovskii.Controller.MotivationController">
    <children>
-      <ImageView fx:id="imageView" fitHeight="231.0" fitWidth="302.0" layoutX="149.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="quoteLabel" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="149.0" layoutY="283.0" prefHeight="74.0" prefWidth="302.0" />
+      <ImageView fx:id="imageView" fitHeight="257.0" fitWidth="506.0"
+                 AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="47.0"
+                 AnchorPane.topAnchor="20.0" preserveRatio="true" />
+      <Label fx:id="quoteLabel" alignment="CENTER" textAlignment="CENTER"
+             AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="55.0"
+             AnchorPane.topAnchor="283.0" prefHeight="95.0" prefWidth="506.0" />
    </children>
 </AnchorPane>

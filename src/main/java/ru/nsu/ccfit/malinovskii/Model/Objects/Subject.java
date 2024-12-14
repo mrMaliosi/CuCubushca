@@ -7,9 +7,7 @@ import java.util.List;
 
 @Getter
 public class Subject {
-
     private String name;
-
     private List<Task> tasks;
 
     public Subject(String name) {
@@ -57,4 +55,9 @@ public class Subject {
         }
         return false;
     }
+
+    public List<Task> getTasksList(){
+        return this.tasks;
+    }
+
 }

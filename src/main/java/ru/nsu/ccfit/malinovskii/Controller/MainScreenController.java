@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import ru.nsu.ccfit.malinovskii.Model.Objects.Context;
+
+import static ru.nsu.ccfit.malinovskii.Model.CuCubushca.fm;
 import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
 
 
@@ -40,26 +42,35 @@ public class MainScreenController {
     @FXML
     private AnchorPane workspacePane;
 
+    private Stage motivationStage = null; // Переменная для хранения текущего окна мотивации
+
     Context context = getContext();
 
     @FXML
     public void initialize() {
         motivationButton.setOnAction(e -> {
             try {
+                // Если окно мотивации уже открыто, закрываем его
+                if (motivationStage != null && motivationStage.isShowing()) {
+                    motivationStage.close();
+                }
+
+                // Загружаем FXML для нового окна мотивации
                 URL motivationXmlUrl = getClass().getResource("/ru/nsu/ccfit/malinovskii/view/motivation-view.fxml");
                 FXMLLoader loader = new FXMLLoader(motivationXmlUrl);
 
-                // Загружаем сцену и создаем новое окно (Stage)
+                // Загружаем сцену для нового окна
                 Scene scene = new Scene(loader.load());
 
                 // Получаем доступ к контроллеру мотивации
                 MotivationController controller = loader.getController();
 
                 // Создаем новый Stage для окна мотивации
-                Stage stage = new Stage();
-                stage.setTitle("Motivation Window"); // Заголовок окна
-                stage.setScene(scene);
-                stage.show(); // Показываем окно
+                motivationStage = new Stage();
+                motivationStage.setTitle("Motivation Window"); // Заголовок окна
+                motivationStage.setScene(scene);
+                motivationStage.show(); // Показываем новое окно
+
             } catch (IOException ioException) {
                 ioException.printStackTrace(); // Логируем ошибку, если не удается загрузить FXML
             }
@@ -105,15 +116,14 @@ public class MainScreenController {
                 if (newName != null && !newName.isEmpty()) {
                     boolean added = context.addWorkspace(newName);
                     if (added) {
+                        fm.save(context.getWorkspaces());
                         // Обновляем список рабочих областей в таблице
                         workspacesTable.setItems(FXCollections.observableArrayList(context.getWorkspaces()));
                     }
                 } else {
-                    // Можно вывести сообщение о том, что имя не было введено, или обработать ошибку
                     System.out.println("Имя рабочей области не может быть пустым!");
                 }
             } catch (IOException ex) {
-                // Обработка ошибок при загрузке FXML
                 ex.printStackTrace();
             }
         });

@@ -13,6 +13,8 @@ public class Context {
     private final List<Workspace> workspaces;
     private Workspace currentWorkspace;
 
+    public int MAX_TASKS_NUMBER = 32768;
+
     private Context() {
         workspaces = new ArrayList<>();
         currentWorkspace = null;

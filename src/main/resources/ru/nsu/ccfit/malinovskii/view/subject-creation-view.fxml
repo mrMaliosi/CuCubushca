@@ -4,12 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="260.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.WorkspaceCreationController">
+<AnchorPane prefHeight="260.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.malinovskii.Controller.SubjectCreationController">
     <Button fx:id="createButton" layoutX="142.0" layoutY="174.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="109.0" text="Создать область" />
     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="143.0" prefHeight="25.0" prefWidth="265.0" textAlignment="CENTER" textFill="RED">
         <font>
           <Font size="14.0" />
         </font>
     </Label>
-    <TextField fx:id="workspaceNameField" layoutX="121.0" layoutY="105.0" promptText="Имя рабочей области" />
+    <TextField fx:id="subjectNameField" layoutX="122.0" layoutY="73.0" promptText="Имя добавляемого предмета" />
+   <Spinner fx:id="tasksNumberSpinner" layoutX="123.0" layoutY="111.0" />
 </AnchorPane>

@@ -11,55 +11,43 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.nsu.ccfit.malinovskii.Model.Objects.*;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Context;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Subject;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Task;
+import ru.nsu.ccfit.malinovskii.Model.Objects.Workspace;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 
 import static ru.nsu.ccfit.malinovskii.Model.CuCubushca.fm;
 import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
 
 public class WorkspaceController {
     @FXML
-    private VBox workspaceContainer;
+    private VBox workspaceContainer; // Контейнер для размещения всех TableView
+    @FXML
+    private Button createSubjectButton; // Кнопка для создания нового предмета
+    @FXML
+    private ScrollPane scrollPane; // ScrollPane для прокрутки
 
     private Workspace workspace;  // Текущая рабочая область
     Context context = getContext();
 
-    // Поле для хранения диаграммы, чтобы обновлять её позже
-    private PieChart pieChart;
-
-    // Метод для установки текущей рабочей области
-    public void setWorkspace(Workspace workspace) {
-        this.workspace = workspace;
-        initializeWorkspace();
-    }
-
-    // Метод для инициализации рабочего пространства
-    public void initializeWorkspace() {
-        List<String> subjectNames = workspace.getSubjectNames();
-
-        for (String subjectName : subjectNames) {
-            List<Task> tasks = workspace.getSubjectTasks(subjectName);
-            createTable(subjectName, tasks);
-        }
-    }
+    private int rowPos = -1;  // Переменная для хранения позиции строки
+    private int columnPos = -1;  // Переменная для хранения позиции столбца
 
     private void createTable(String subjectName, List<Task> tasks) {
         // Создание HBox для размещения таблицы и диаграммы рядом
         HBox tableAndChartContainer = new HBox(20); // Отступ между таблицей и диаграммой
-        tableAndChartContainer.setAlignment(Pos.CENTER_LEFT);
+        tableAndChartContainer.setAlignment(Pos.CENTER_LEFT); // Выравнивание по центру
 
         // Создание TableView
         TableView<ObservableList<String>> tableView = new TableView<>();
-        tableView.setMaxWidth(400);
-        tableView.setMaxHeight(160);
+        tableView.setMaxWidth(400);  // Максимальная ширина таблицы
+        tableView.setMaxHeight(160); // Максимальная высота таблицы
 
         // Столбец для предмета
         TableColumn<ObservableList<String>, String> subjectColumn = new TableColumn<>(subjectName);
@@ -73,102 +61,55 @@ public class WorkspaceController {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
-                    setText(null);
+                    setText(item);
+                    setStyle("-fx-font-size: 24px; -fx-background-color: white;");  // Устанавливаем размер шрифта и фон
+                    setAlignment(Pos.CENTER);
 
-                    if (!empty) {
-                        // Создаем ChoiceBox для изменения статуса задачи
-                        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-                        choiceBox.getItems().addAll("-", "Начато", "Уже близко", "PASS");
-
-                        // Устанавливаем текущее состояние задачи в ChoiceBox
-                        String currentStatus = task.getStatus().name();  // Получаем текущий статус задачи
-                        choiceBox.setValue(currentStatus);
-
-                        // Обработчик изменения состояния задачи
-                        choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                            if (!Objects.equals(newValue, oldValue)){
-                                switch (newValue){
-                                    case "-":
-                                        task.setStatus(Status.NOT_DONE);
-                                        break;
-                                    case "Начато":
-                                        task.setStatus(Status.NOT_DONE);
-                                        break;
-                                    case "Уже близко":
-                                        task.setStatus(Status.IN_WORK);
-                                        break;
-                                    case "Готово":
-                                        task.setStatus(Status.PASS);
-                                        break;
-                                }
-
-                                fm.save(context.getWorkspaces());
-                                updatePieChart(tasks); // Обновляем диаграмму
-                            }
-                        });
-
-                        setGraphic(choiceBox);  // Устанавливаем ChoiceBox в ячейку
-                        setStyle("-fx-font-size: 20px; -fx-background-color: white;");  // Устанавливаем стиль
-                        setAlignment(Pos.CENTER);  // Выравнивание по центру
-                    }
+                    // Обработчик клика
+                    setOnMouseClicked(event -> {
+                        handleCellClick(this, getIndex(), getTableColumn());  // Обрабатываем клик
+                        while (rowPos >= 0) {
+                            --rowPos;
+                            // обновить стиль для ячейки на rowPos и columnPos
+                        }
+                    });
                 }
             });
             tableView.getColumns().add(taskColumn);  // Добавляем столбец для каждой задачи
         }
 
         // Заполняем строки данными
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             ObservableList<String> row = FXCollections.observableArrayList();
-            row.add("Статус");
-            // Добавляем пустые значения для каждой задачи
-            for (int j = 0; j < tasks.size(); j++) {
-                row.add("");
+            switch (i) {
+                case 0:
+                    row.add("Начато");
+                    break;
+                case 1:
+                    row.add("Уже близко");
+                    break;
+                case 2:
+                    row.add("Готово");
+                    break;
             }
 
-            tableView.getItems().add(row);
-        }
+            for (int j = 0; j < tasks.size(); j++) {
+                // Добавляем пустое значение или начальное значение для каждой задачи
+                row.add("");  // Пустые значения
+            }
 
-        // Стилизация строк через TableRow
-        tableView.setRowFactory(tv -> {
-            TableRow<ObservableList<String>> row = new TableRow<>();
-            row.setStyle("-fx-font-size: 20px;");
-            return row;
-        });
+            tableView.getItems().add(row);  // Добавляем строку в таблицу
+        }
 
         // Добавляем таблицу в контейнер
         tableAndChartContainer.getChildren().add(tableView);
 
         // Создание круговой диаграммы (PieChart)
-        pieChart = createPieChart(tasks);  // Сохраняем диаграмму в поле
+        PieChart pieChart = createPieChart(tasks);
         tableAndChartContainer.getChildren().add(pieChart);  // Добавляем диаграмму рядом с таблицей
 
         // Добавляем контейнер с таблицей и диаграммой в основной контейнер
         workspaceContainer.getChildren().add(tableAndChartContainer);
-    }
-
-    private void updatePieChart(List<Task> tasks) {
-        int tasksStarted = 0;
-        int tasksAlmost = 0;
-        int tasksReady = 0;
-
-        for (Task task : tasks) {
-            switch (task.getStatus()){
-                case IN_WORK -> ++tasksAlmost;
-                case PASS -> ++tasksReady;
-                default -> ++tasksStarted;
-            }
-        }
-        int tasksAll = tasksStarted + tasksAlmost + tasksReady;
-
-        PieChart.Data slice1 = new PieChart.Data("Надо сделать", (double)tasksStarted/tasksAll * 100);
-        PieChart.Data slice2 = new PieChart.Data("Уже близко", (double)tasksAlmost/tasksAll * 100);
-        PieChart.Data slice3 = new PieChart.Data("Готово", (double)tasksReady/tasksAll * 100);
-        pieChart.setLegendVisible(true);
-
-        // Обновляем существующую диаграмму
-        pieChart.getData().clear();  // Очищаем старые данные диаграммы
-        pieChart.getData().addAll(slice1, slice2, slice3);
-        //pieChart.setLegendVisible(true); // Отображение легенды диаграммы
     }
 
     private PieChart createPieChart(List<Task> tasks) {
@@ -185,7 +126,7 @@ public class WorkspaceController {
         }
         int tasksAll = tasksStarted + tasksAlmost + tasksReady;
 
-        PieChart.Data slice1 = new PieChart.Data("Надо сделать", (double)tasksStarted/tasksAll);
+        PieChart.Data slice1 = new PieChart.Data("Начато", (double)tasksStarted/tasksAll);
         PieChart.Data slice2 = new PieChart.Data("Уже близко", (double)tasksAlmost/tasksAll);
         PieChart.Data slice3 = new PieChart.Data("Готово", (double)tasksReady/tasksAll);
 
@@ -196,6 +137,31 @@ public class WorkspaceController {
         pieChart.setLegendVisible(true); // Отображение легенды диаграммы
 
         return pieChart;
+    }
+
+    // Обработчик клика по ячейке
+    private void handleCellClick(TableCell<ObservableList<String>, String> cell, int rowIdx, TableColumn<ObservableList<String>, String> column) {
+        int columnIdx = column.getTableView().getColumns().indexOf(column);
+        cell.setStyle("-fx-background-color: lightgreen; -fx-font-size: 24px;");
+        --rowIdx;
+        rowPos = rowIdx;
+        columnPos = columnIdx;
+    }
+
+    // Метод для установки текущей рабочей области
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+        initializeWorkspace();
+    }
+
+    // Метод для инициализации рабочего пространства
+    public void initializeWorkspace() {
+        List<String> subjectNames = workspace.getSubjectNames();
+
+        for (String subjectName : subjectNames) {
+            List<Task> tasks = workspace.getSubjectTasks(subjectName);
+            createTable(subjectName, tasks);
+        }
     }
 
     // Обработчик для создания нового предмета
