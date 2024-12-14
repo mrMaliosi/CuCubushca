@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.List;
 import  java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
@@ -57,6 +58,13 @@ public class Workspace {
         }
 
         return targetSubject.addTaskByName(taskName);
+    }
+
+    public Subject getSubjectByName(String subjectName) {
+        Optional<Subject> optSubject = subjects.stream().filter(
+                subject -> subject.getName().equals(subjectName)
+        ).findFirst();
+        return optSubject.orElse(null);
     }
 
     public List<Task> getSubjectTasks(String subjectName) {
