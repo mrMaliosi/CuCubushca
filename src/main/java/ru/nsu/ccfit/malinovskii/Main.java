@@ -16,7 +16,7 @@ public class Main {
         try {
             Application.launch(CuCubushca.class, args);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             //logger.error("Exception: ", e);
         }
     }

@@ -20,7 +20,7 @@ public class CuCubushca extends Application {
     public static FXMLLoader loader = new FXMLLoader();
     public static FileManager fm = new FileManagerJson();
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         stage = primaryStage;
         URL xmlUrl = getClass().getResource("/ru/nsu/ccfit/malinovskii/view/main-view.fxml");
         loader.setLocation(xmlUrl);
@@ -34,11 +34,11 @@ public class CuCubushca extends Application {
         } catch (IOException e) {
             // Обработка ошибок, связанных с загрузкой FXML файла
             System.err.println("Ошибка при загрузке FXML файла: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         } catch (Exception e) {
             // Обработка других неожиданных ошибок
             System.err.println("Неизвестная ошибка: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

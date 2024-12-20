@@ -17,7 +17,7 @@ public class MotivationController {
     @FXML
     private Label quoteLabel;     // Элемент для отображения цитаты
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     // Количество файлов изображений и цитат
     private static final int NUM_IMAGES = 10;  // Например, 3 изображения (1.jpg, 2.jpg, 3.jpg)
@@ -65,7 +65,7 @@ public class MotivationController {
 
                 quoteLabel.setText(quoteContent.toString().trim());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
                 quoteLabel.setText("Error loading quote.");
             }
         } else {

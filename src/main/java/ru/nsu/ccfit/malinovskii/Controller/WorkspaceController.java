@@ -1,6 +1,5 @@
 package ru.nsu.ccfit.malinovskii.Controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,7 +59,7 @@ public class WorkspaceController {
             scrollPane.setContent(workspaceContainer);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -99,7 +98,7 @@ public class WorkspaceController {
                 System.out.println("Имя рабочей области не может быть пустым!");
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
         }
     }
 }

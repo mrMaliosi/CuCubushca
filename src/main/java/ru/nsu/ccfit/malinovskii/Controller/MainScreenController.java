@@ -1,6 +1,5 @@
 package ru.nsu.ccfit.malinovskii.Controller;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,14 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Workspace;
 
@@ -72,7 +69,7 @@ public class MainScreenController {
                 motivationStage.show(); // Показываем новое окно
 
             } catch (IOException ioException) {
-                ioException.printStackTrace(); // Логируем ошибку, если не удается загрузить FXML
+                ioException.printStackTrace(System.err); // Логируем ошибку, если не удается загрузить FXML
             }
         });
 
@@ -89,7 +86,7 @@ public class MainScreenController {
                 stage.setScene(scene);
                 stage.show(); // Показываем окно
             } catch (IOException ioException) {
-                ioException.printStackTrace();
+                ioException.printStackTrace(System.err);
             }
         });
 
@@ -122,7 +119,7 @@ public class MainScreenController {
                     System.out.println("Имя рабочей области не может быть пустым!");
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                ex.printStackTrace(System.err);
             }
         });
 
@@ -163,7 +160,7 @@ public class MainScreenController {
                 workspacePane.getChildren().clear(); // Очищаем панель
                 workspacePane.getChildren().add(workspaceView); // Добавляем новую рабочую область
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }

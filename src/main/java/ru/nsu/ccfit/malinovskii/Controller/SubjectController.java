@@ -1,19 +1,17 @@
 package ru.nsu.ccfit.malinovskii.Controller;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Context;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Status;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Subject;
 import ru.nsu.ccfit.malinovskii.Model.Objects.Task;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import static ru.nsu.ccfit.malinovskii.Model.CuCubushca.fm;
 import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
@@ -21,8 +19,6 @@ import static ru.nsu.ccfit.malinovskii.Model.Objects.Context.getContext;
 public class SubjectController {
     @FXML
     private Subject subject;
-    @FXML
-    private TableView<ObservableList<String>> tableView; // Это предполагается уже у вас как таблица
     @FXML
     private GridPane grid;
 
@@ -110,14 +106,14 @@ public class SubjectController {
                     String newBgColor = getStatusColor(task.getStatus());
                     choiceBox.setStyle("-fx-background-color: " + newBgColor + "; -fx-border-color: black; -fx-border-width: 1;");
                     fm.save(context.getWorkspaces());
-                    updatePieChart(tasks); // Обновляем диаграмму
+                    updatePieChart(); // Обновляем диаграмму
                 }
             });
             ++taskN;
         }
 
         // Создание круговой диаграммы (PieChart)
-        pieChart = createPieChart(tasks);  // Сохраняем диаграмму в поле
+        pieChart = createPieChart();  // Сохраняем диаграмму в поле
         tableAndChartContainer.getChildren().add(pieChart);  // Добавляем диаграмму рядом с таблицей
 
         // Добавляем HBox в GridPane
@@ -126,46 +122,32 @@ public class SubjectController {
 
     // Метод для получения цвета в зависимости от статуса
     private String getStatusColor(Status status) {
-        switch (status) {
-            case IN_WORK:
-                return "#FFA500"; // Оранжевый для статуса "Начато"
-            case PASS:
-                return "#32CD32"; // Зеленый для статуса "Готово"
-            default:
-                return "#FF6347"; // Красный для статуса "Не сделано"
-        }
+        return switch (status) {
+            case IN_WORK -> "#FFA500"; // Оранжевый для статуса "Начато"
+            case PASS -> "#32CD32"; // Зеленый для статуса "Готово"
+            default -> "#FF6347"; // Красный для статуса "Не сделано"
+        };
     }
 
     // Метод для обновления диаграммы PieChart после изменения статуса
-    private void updatePieChart(List<Task> tasks) {
-        int tasksStarted = 0;
-        int tasksAlmost = 0;
-        int tasksReady = 0;
-
-        for (Task task : tasks) {
-            switch (task.getStatus()) {
-                case IN_WORK -> ++tasksAlmost;
-                case PASS -> ++tasksReady;
-                default -> ++tasksStarted;
-            }
-        }
+    private void updatePieChart() {
+        Map<Status, Integer> statistic = subject.getStatistic();
+        int tasksStarted = statistic.get(Status.NOT_DONE);
+        int tasksAlmost = statistic.get(Status.IN_WORK);
+        int tasksReady = statistic.get(Status.PASS);
         int tasksAll = tasksStarted + tasksAlmost + tasksReady;
 
-        PieChart.Data[] pieData = new PieChart.Data[3];
         int i = 0;
         for (PieChart.Data slice : pieChart.getData()){
             switch (i){
                 case 0:
                     slice.setPieValue((double)tasksStarted / tasksAll);
-                    pieData[i] = slice;
                     break;
                 case 1:
                     slice.setPieValue((double)tasksAlmost / tasksAll);
-                    pieData[i] = slice;
                     break;
                 case 2:
                     slice.setPieValue((double)tasksReady / tasksAll);
-                    pieData[i] = slice;
                     break;
             }
             ++i;
@@ -173,18 +155,11 @@ public class SubjectController {
     }
 
     // Метод для создания данных для PieChart
-    private PieChart.Data[] createPieChartData(List<Task> tasks) {
-        int tasksStarted = 0;
-        int tasksAlmost = 0;
-        int tasksReady = 0;
-
-        for (Task task : tasks) {
-            switch (task.getStatus()) {
-                case IN_WORK -> ++tasksAlmost;
-                case PASS -> ++tasksReady;
-                default -> ++tasksStarted;
-            }
-        }
+    private PieChart.Data[] createPieChartData() {
+        Map<Status, Integer> statistic = subject.getStatistic();
+        int tasksStarted = statistic.get(Status.NOT_DONE);
+        int tasksAlmost = statistic.get(Status.IN_WORK);
+        int tasksReady = statistic.get(Status.PASS);
         int tasksAll = tasksStarted + tasksAlmost + tasksReady;
 
         PieChart.Data slice1 = new PieChart.Data("NOT_DONE", (double)tasksStarted / tasksAll);
@@ -195,9 +170,9 @@ public class SubjectController {
     }
 
     // Метод для создания диаграммы PieChart
-    private PieChart createPieChart(List<Task> tasks) {
+    private PieChart createPieChart() {
         PieChart pieChart = new PieChart();
-        pieChart.getData().addAll(createPieChartData(tasks));
+        pieChart.getData().addAll(createPieChartData());
         pieChart.setMaxWidth(200);  // Ограничиваем ширину диаграммы
         pieChart.setMaxHeight(200); // Ограничиваем высоту диаграммы
         pieChart.setLegendVisible(false); // Отображение легенды диаграммы
